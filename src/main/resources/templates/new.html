@@ -15,6 +15,11 @@
         <label for="name">Lastname: </label>
         <input type="text" th:field="*{lastname}" id="lastname">
     </div>
+    <div class="field">
+        <label for="email">Email: </label>
+        <input type="text" th:field="*{email}" id="email">
+        <div style="color: darkred" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+    </div>
     <br/>
     <input type="submit" value="Add new user">
 
