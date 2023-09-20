@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface UserService {
     List<User> getAll();
-    Set<Role> getRoles(User user);
+    List<Role> getRoles(User user);
 
     User get(Long id);
     User get(String email);

@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Set<Role> getRoles(User user) {
+    public List<Role> getRoles(User user) {
         return null;
     }
 

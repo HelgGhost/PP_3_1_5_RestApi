@@ -7,6 +7,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -23,10 +24,9 @@ public class UserServiceDAOMySQL implements UserServiceDAO {
     }
 
     @Override
-    public Set<Role> getRoles(User user) {
-        Set<Role> =  entityManager.createQuery("SELECT r FROM Role r JOIN r.users users JOIN users.roles role WHERE r")
-                .setParameter("email", user.getEmail()).getResultStream().findAny().orElse(null);
-        return null;
+    public List<Role> getRoles(User user) {
+        return entityManager.createQuery("SELECT r FROM Role r JOIN r.users u WHERE u = :user")
+                .setParameter("user", user).getResultList();
     }
 
     @Override
