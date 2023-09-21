@@ -10,7 +10,6 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 @Component
 public class UserValidator implements Validator {
     private final UserService userService;
-
     @Autowired
     public UserValidator(UserService userService) {
         this.userService = userService;
@@ -24,11 +23,11 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
-        if (userService.get(user.getEmail()) != null) {
-            errors.rejectValue("email", "", "Email already in use");
+        if (userService.get(user.getUsername()) != null) {
+            errors.rejectValue("username", "", "Username already in use");
         }
         if (user.getPassword() == null) {
-            errors.rejectValue("email", "", "Password must be not empty");
+            errors.rejectValue("password", "", "Password must be not empty");
         }
     }
 }

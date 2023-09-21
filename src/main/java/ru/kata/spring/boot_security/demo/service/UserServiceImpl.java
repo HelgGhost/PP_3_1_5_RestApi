@@ -29,11 +29,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<Role> getRoles(User user) {
-        return null;
-    }
-
-    @Override
     public User get(Long id) {
         return userServiceDAO.get(id);
     }

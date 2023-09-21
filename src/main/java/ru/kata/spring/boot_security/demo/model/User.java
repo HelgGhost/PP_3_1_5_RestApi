@@ -21,7 +21,7 @@ public class User implements UserDetails {
 
 
     @Column(unique = true)
-    private String email;
+    private String username;
     @Column(nullable = false)
     private String password;
 
@@ -51,24 +51,15 @@ public class User implements UserDetails {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+    public void deleteRole(Role role) {
+        roles.remove(role);
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
@@ -84,7 +75,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override
@@ -112,11 +103,29 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(email, user.email);
+        return Objects.equals(username, user.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email);
+        return Objects.hash(username);
     }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setUsername(String email) {
+        this.username = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 }

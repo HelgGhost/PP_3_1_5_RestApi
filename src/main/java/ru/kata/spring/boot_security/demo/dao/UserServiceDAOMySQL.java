@@ -5,19 +5,15 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 @Transactional(readOnly = true)
 public class UserServiceDAOMySQL implements UserServiceDAO {
     @PersistenceContext
     private EntityManager entityManager;
-
 
     @Override
     public List<User> getAll() {
@@ -36,9 +32,9 @@ public class UserServiceDAOMySQL implements UserServiceDAO {
     }
 
     @Override
-    public User get(String email) {
-        return (User) entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email")
-                .setParameter("email", email).getResultStream().findAny().orElse(null);
+    public User get(String username) {
+        return (User) entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username")
+                .setParameter("username", username).getResultStream().findAny().orElse(null);
     }
 
     @Transactional
@@ -59,9 +55,4 @@ public class UserServiceDAOMySQL implements UserServiceDAO {
         entityManager.remove(get(id));
     }
 
-    @Transactional
-    @PostConstruct
-    public void prepareDatabase() {
-        entityManager.createQuery("");
-    }
 }
