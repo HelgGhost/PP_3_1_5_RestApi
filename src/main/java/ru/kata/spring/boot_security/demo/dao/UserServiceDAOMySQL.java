@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.HashSet;
@@ -56,5 +57,11 @@ public class UserServiceDAOMySQL implements UserServiceDAO {
     @Override
     public void delete(Long id) {
         entityManager.remove(get(id));
+    }
+
+    @Transactional
+    @PostConstruct
+    public void prepareDatabase() {
+        entityManager.createQuery("");
     }
 }

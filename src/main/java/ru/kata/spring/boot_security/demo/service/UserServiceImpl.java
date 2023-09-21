@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class UserServiceImpl implements UserService {
-//public class UserServiceImpl implements UserService, UserDetailsService {
+//public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserServiceDAO userServiceDAO;
 
     @Autowired
@@ -58,12 +58,12 @@ public class UserServiceImpl implements UserService {
         userServiceDAO.delete(id);
     }
 
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        User user = get(username);
-//        if (user==null) {
-//            throw new UsernameNotFoundException("User not found");
-//        }
-//        return user;
-//    }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = get(username);
+        if (user==null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user;
+    }
 }
