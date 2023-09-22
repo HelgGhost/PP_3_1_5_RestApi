@@ -20,6 +20,7 @@
         <input type="text" th:field="*{username}" id="email">
         <div style="color: darkred" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
     </div>
+    <div style="color: darkred" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
     <br/>
     <input type="submit" value="Add new user">
 
