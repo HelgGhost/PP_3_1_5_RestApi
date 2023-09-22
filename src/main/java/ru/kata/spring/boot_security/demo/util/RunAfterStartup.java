@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.*;
@@ -16,12 +17,15 @@ import javax.annotation.PostConstruct;
 @Transactional
 public class RunAfterStartup {
     private final Environment env;
+
+    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final RoleService roleService;
 
     @Autowired
-    public RunAfterStartup(Environment env, UserService userService, RoleService roleService) {
+    public RunAfterStartup(Environment env, PasswordEncoder passwordEncoder, UserService userService, RoleService roleService) {
         this.env = env;
+        this.passwordEncoder = passwordEncoder;
         this.userService = userService;
         this.roleService = roleService;
     }
@@ -31,17 +35,16 @@ public class RunAfterStartup {
         if (roleService.get(env.getProperty("role.user")) == null) {
             roleService.add(new Role(env.getProperty("role.user")));
         }
-        if (roleService.get(env.getProperty("role.admin")) == null) {
-            roleService.add(new Role(env.getProperty("role.admin")));
+        if (roleService.get(env.getProperty("role.administrator")) == null) {
+            roleService.add(new Role(env.getProperty("role.administrator")));
         }
 
-//        if (userService.get(env.getProperty("administrator.name")) == null) {
-//            System.out.println("Admin not found!");
-//
-//            User user = new User(env.getProperty("administrator.name"), env.getProperty("demo.administrator.password"));
-//            user.addRole(new Role(env.getProperty("role.administrator")));
-//            userService.add(new User());
-//        }
+        if (userService.get(env.getProperty("administrator.name")) == null) {
+            User user = new User(env.getProperty("administrator.name"),
+                    passwordEncoder.encode(env.getProperty("administrator.password")));
+            user.addRole(roleService.get(env.getProperty("role.administrator")));
+            userService.add(user);
+        }
     }
 
     @PostConstruct
