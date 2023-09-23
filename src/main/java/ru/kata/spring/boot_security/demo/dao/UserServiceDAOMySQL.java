@@ -46,6 +46,7 @@ public class UserServiceDAOMySQL implements UserServiceDAO {
     @Transactional
     @Override
     public void update(Long id, User user) {
+//        entityManager.find(User.class, user);
         entityManager.merge(user);
     }
 

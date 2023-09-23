@@ -16,10 +16,16 @@
         <input type="text" th:field="*{lastname}" id="lastname">
     </div>
     <div class="field">
-        <label for="email">User name: </label>
-        <input type="text" th:field="*{username}" id="email">
+        <label for="username">User name: </label>
+        <input type="text" th:field="*{username}" id="username">
         <div style="color: darkred" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
     </div>
+    <div class="field">
+        <label for="password">Password: </label>
+        <input type="password" th:field="*{password}" id="password">
+        <div style="color: darkred" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</div>
+    </div>
+
     <br/>
     <input type="submit" value="Update user">
 </form>
