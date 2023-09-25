@@ -10,11 +10,12 @@ import java.util.Set;
 public interface UserService {
     List<User> getAll();
     User get(Long id);
-    User get(String email);
+    User get(String username);
 
     void add(User user);
 
     void update(Long id, User user);
+    void updateFromController(User user);
 
     void delete(Long id);
 

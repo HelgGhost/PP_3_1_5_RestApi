@@ -1,10 +1,13 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -17,9 +20,14 @@ import java.util.Set;
 @Table(name = "users")
 
 public class User implements UserDetails {
+
     @Transient
+    static UserService userService;
     @Autowired
-    private UserService userService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,9 +43,8 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany (cascade = {
-            CascadeType.PERSIST,
             CascadeType.MERGE
-    }, fetch = FetchType.EAGER)
+    })
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user.id"),
             inverseJoinColumns = @JoinColumn(name = "role.id")
@@ -46,6 +53,8 @@ public class User implements UserDetails {
     private Set<Role> roles = new HashSet<>();
     public User() {
     }
+
+
     public Long getId() {
         return id;
     }
@@ -64,21 +73,26 @@ public class User implements UserDetails {
     public void addRole(Role role) {
         roles.add(role);
     }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     public void deleteRole(Role role) {
         roles.remove(role);
     }
-
+    public Set<Role> getRoles() {
+        return roles;
+    }
     public User(String username, String password) {
+        this.name = username;
+        this.lastname = "";
         this.username = username;
         this.password = password;
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        try {
-            return userService.get(username).roles;
-        } finally {
-            return null;
-        }
+        return roles;
     }
 
     @Override

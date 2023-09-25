@@ -20,7 +20,7 @@ public class RoleServiceDAOMySQL implements RoleServiceDAO{
 
     @Override
     public Role get(String name) {
-        return (Role) entityManager.createQuery("SELECT r FROM Role r WHERE r.name = :name")
+        return entityManager.createQuery("SELECT r FROM Role r WHERE r.name = :name", Role.class)
                 .setParameter("name", name).getResultStream().findAny().orElse(null);
     }
 

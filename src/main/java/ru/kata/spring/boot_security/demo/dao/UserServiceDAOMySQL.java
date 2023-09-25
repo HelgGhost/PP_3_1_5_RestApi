@@ -7,23 +7,18 @@ import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
 public class UserServiceDAOMySQL implements UserServiceDAO {
-    @PersistenceContext
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
     @Override
     public List<User> getAll() {
         return entityManager.createQuery("select u from User u").getResultList();
-    }
-
-    @Override
-    public List<Role> getRoles(User user) {
-        return entityManager.createQuery("SELECT r FROM Role r JOIN r.users u WHERE u = :user")
-                .setParameter("user", user).getResultList();
     }
 
     @Override
@@ -33,8 +28,8 @@ public class UserServiceDAOMySQL implements UserServiceDAO {
 
     @Override
     public User get(String username) {
-        return (User) entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username")
-                .setParameter("username", username).getResultStream().findAny().orElse(null);
+        return entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                .setParameter("username", username).getResultStream().findFirst().orElse(null);
     }
 
     @Transactional
@@ -46,7 +41,6 @@ public class UserServiceDAOMySQL implements UserServiceDAO {
     @Transactional
     @Override
     public void update(Long id, User user) {
-//        entityManager.find(User.class, user);
         entityManager.merge(user);
     }
 

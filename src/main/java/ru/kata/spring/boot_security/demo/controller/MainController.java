@@ -9,7 +9,7 @@ public class MainController {
 
     @GetMapping(value = "/")
     public String mainPageRedirectUsers(ModelMap model) {
-        return "redirect:users";
+        return "index";
     }
 
 }

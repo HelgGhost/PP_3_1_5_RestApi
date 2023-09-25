@@ -9,7 +9,6 @@ import java.util.Set;
 
 public interface UserServiceDAO {
     List<User> getAll();
-    List<Role> getRoles(User user);
     User get(Long id);
     User get(String name);
 

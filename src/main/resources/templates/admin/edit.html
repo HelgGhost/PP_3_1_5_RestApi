@@ -6,7 +6,7 @@
     <title>New user</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/users}" th:object="${user}">
+<form th:method="PATCH" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">
     <div class="field">
         <label for="name">Name: </label>
         <input type="text" th:field="*{name}" id="name">
@@ -18,21 +18,17 @@
     <div class="field">
         <label for="username">User name: </label>
         <input type="text" th:field="*{username}" id="username">
-     </div>
+        <div style="color: darkred" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
+    </div>
     <div class="field">
         <label for="password">Password: </label>
-        <input type="password" th:field="*{password}" id="password">
+        <input type="text" th:field="*{password}" id="password">
         <div style="color: darkred" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</div>
     </div>
-
-    <div style="color: darkred" th:if="${#fields.hasAnyErrors()}">
-        <ul>
-            <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
-        </ul>
-    </div>    <br/>
-    <input type="submit" value="Add new user">
-
+    <br/>
+    <input type="submit" value="Update user">
 </form>
+<p><a type="button" th:href="@{/logout}">Logout</a></p>
 </body>
 <style>
     .field {

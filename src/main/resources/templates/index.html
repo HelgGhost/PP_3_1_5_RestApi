@@ -4,8 +4,15 @@
     <title>Spring Security Example</title>
 </head>
 <body>
-<h1>Welcome to Index PAGE!</h1>
-
-
+<h1>Welcome to MAIN PAGE!</h1>
+<div th:text="'Default user and password for administrator is: '
+        +${@environment.getProperty('administrator.name')}
+        +' '
+        +${@environment.getProperty('administrator.password')}">
+</div>
+<div>
+    <a href="/login">Authorisation page</a>
+</div>
+<p><a type="button" th:href="@{/logout}">Logout</a></p>
 </body>
 </html>

@@ -19,8 +19,18 @@
         <td>Lastname:</td>
         <td th:text="${user.getLastname()}"></td>
     </tr>
+    <tr>
+        <td>Username:</td>
+        <td th:text="${user.getUsername()}"></td>
+    </tr>
+    <tr>
+        <td>Roles:</td>
+        <div th:each="role : ${user.getRoles()}">
+            <td th:text="${role.getName()}+' '"></td>
+        </div>
+    </tr>
 </table>
-<a href="/">Go back to main page</a>
+<a href="/admin">Go back to all users</a>
 <p><a type="button" th:href="@{/logout}">Logout</a></p>
 </body>
 </html>

@@ -9,65 +9,64 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.util.UserValidator;
 
+import java.security.Principal;
+
 @Controller
-@RequestMapping("/users")
-public class UsersController {
+@RequestMapping("/admin")
+public class AdminController {
     private final UserService userService;
     private final UserValidator userValidator;
-
     @Autowired
-    public UsersController(UserService userService, UserValidator userValidator) {
+    public AdminController(UserService userService, UserValidator userValidator) {
         this.userService = userService;
         this.userValidator = userValidator;
     }
-
     @GetMapping()
-    public String showUsersPage(ModelMap model) {
+    public String showAdminPage(ModelMap model) {
         model.addAttribute("users", userService.getAll());
-        return "users";
+        return "admin/users";
     }
-
     @GetMapping("/{id}")
-    public String showUserPage(@PathVariable("id") Long id, ModelMap model) {
+    public String showUserPage(@PathVariable("id") Long id, Principal principal, ModelMap model) {
         model.addAttribute("user", userService.get(id));
-        return "user";
+        return "admin/user";
     }
 
     @GetMapping("/new")
     public String showNewPage(ModelMap model) {
         model.addAttribute("user", new User());
-        return "new";
+        return "admin/new";
     }
 
     @PostMapping()
     public String addUserRedirectUsers(@ModelAttribute("user") User user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "new";
+            return "admin/new";
         }
         userService.add(user);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
     @GetMapping("/{id}/edit")
     public String showEditPage(@PathVariable("id") Long id, ModelMap model) {
         model.addAttribute("user", userService.get(id));
-        return "edit";
+        return "admin/edit";
     }
 
     @PatchMapping("/{id}")
     public String updateUserRedirectUsers(@ModelAttribute("user") User user, BindingResult bindingResult , @PathVariable("id") Long id) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "edit";
+            return "admin/edit";
         }
-        userService.update(id, user);
-        return "redirect:/users";
+        userService.updateFromController(user);
+        return "redirect:/admin";
     }
 
     @DeleteMapping("/{id}")
     public String deleteUserRedirectUsers(@PathVariable("id") Long id) {
         userService.delete(id);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 }

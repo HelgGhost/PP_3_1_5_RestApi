@@ -32,24 +32,20 @@ public class RunAfterStartup {
 
     @EventListener(ApplicationReadyEvent.class)
     public void runAfterStartup() {
-        if (roleService.get(env.getProperty("role.user")) == null) {
-            roleService.add(new Role(env.getProperty("role.user")));
-        }
-        if (roleService.get(env.getProperty("role.administrator")) == null) {
-            roleService.add(new Role(env.getProperty("role.administrator")));
-        }
-
-        if (userService.get(env.getProperty("administrator.name")) == null) {
-            User user = new User(env.getProperty("administrator.name"),
-                    passwordEncoder.encode(env.getProperty("administrator.password")));
-            user.addRole(roleService.get(env.getProperty("role.administrator")));
-            userService.add(user);
-        }
+//        if (roleService.get(Role.getRole(Role.USER)) == null) {
+//            roleService.add(new Role(Role.getRole(Role.USER)));
+//        }
+//        if (roleService.get(Role.getRole(Role.ADMIN)) == null) {
+//            roleService.add(new Role(Role.getRole(Role.ADMIN)));
+//        }
+//
+//        if (userService.get(env.getProperty("administrator.name")) == null) {
+//            User user = new User(env.getProperty("administrator.name"),
+//                    passwordEncoder.encode(env.getProperty("administrator.password")));
+//            user.addRole(roleService.get(Role.getRole(Role.ADMIN)));
+//            userService.add(user);
+//        }
     }
 
-    @PostConstruct
-    public void prepareDatabase() {
-//        //entityManager.createQuery("");
-    }
 
 }
