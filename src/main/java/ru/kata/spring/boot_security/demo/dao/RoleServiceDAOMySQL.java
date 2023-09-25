@@ -10,9 +10,10 @@ import javax.persistence.PersistenceContext;
 
 @Repository
 @Transactional
-public class RoleServiceDAOMySQL implements RoleServiceDAO{
+public class RoleServiceDAOMySQL implements RoleServiceDAO {
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     public void add(Role role) {
         entityManager.persist(role);

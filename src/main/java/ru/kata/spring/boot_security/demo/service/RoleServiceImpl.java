@@ -6,8 +6,9 @@ import ru.kata.spring.boot_security.demo.dao.RoleServiceDAO;
 import ru.kata.spring.boot_security.demo.model.Role;
 
 @Service
-public class RoleServiceImpl implements RoleService{
+public class RoleServiceImpl implements RoleService {
     private final RoleServiceDAO roleServiceDAO;
+
     @Autowired
     public RoleServiceImpl(RoleServiceDAO roleServiceDAO) {
         this.roleServiceDAO = roleServiceDAO;

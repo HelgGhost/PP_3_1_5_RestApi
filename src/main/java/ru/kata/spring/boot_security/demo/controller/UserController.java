@@ -19,6 +19,7 @@ public class UserController {
         this.userService = userService;
         this.userValidator = userValidator;
     }
+
     @GetMapping("/user")
     public String showUserPage(Principal principal, ModelMap model) {
         model.addAttribute("user", userService.get(principal.getName()));

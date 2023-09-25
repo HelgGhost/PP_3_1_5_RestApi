@@ -12,13 +12,14 @@ import java.util.Set;
 public class Role implements GrantedAuthority {
     public static final String ADMIN = "ADMIN";
     public static final String USER = "USER";
+
     public static String getRole(String role) {
         return "ROLE_" + role;
     }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //@Column
     @Column(unique = true)
     private String name;
 

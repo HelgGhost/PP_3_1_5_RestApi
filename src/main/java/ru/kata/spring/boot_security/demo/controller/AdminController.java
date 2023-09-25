@@ -16,16 +16,19 @@ import java.security.Principal;
 public class AdminController {
     private final UserService userService;
     private final UserValidator userValidator;
+
     @Autowired
     public AdminController(UserService userService, UserValidator userValidator) {
         this.userService = userService;
         this.userValidator = userValidator;
     }
+
     @GetMapping()
     public String showAdminPage(ModelMap model) {
         model.addAttribute("users", userService.getAll());
         return "admin/users";
     }
+
     @GetMapping("/{id}")
     public String showUserPage(@PathVariable("id") Long id, Principal principal, ModelMap model) {
         model.addAttribute("user", userService.get(id));
@@ -55,7 +58,7 @@ public class AdminController {
     }
 
     @PatchMapping("/{id}")
-    public String updateUserRedirectUsers(@ModelAttribute("user") User user, BindingResult bindingResult , @PathVariable("id") Long id) {
+    public String updateUserRedirectUsers(@ModelAttribute("user") User user, BindingResult bindingResult, @PathVariable("id") Long id) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "admin/edit";

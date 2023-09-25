@@ -22,6 +22,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final RoleService roleService;
     private final Environment env;
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
@@ -91,7 +92,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = get(username);
-        if (user==null) {
+        if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         return user;

@@ -23,6 +23,7 @@ public class User implements UserDetails {
 
     @Transient
     static UserService userService;
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -42,7 +43,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany (cascade = {
+    @ManyToMany(cascade = {
             CascadeType.MERGE
     })
     @JoinTable(name = "user_role",
@@ -51,6 +52,7 @@ public class User implements UserDetails {
     )
 
     private Set<Role> roles = new HashSet<>();
+
     public User() {
     }
 
@@ -70,6 +72,7 @@ public class User implements UserDetails {
     public void setId(Long id) {
         this.id = id;
     }
+
     public void addRole(Role role) {
         roles.add(role);
     }
@@ -81,15 +84,18 @@ public class User implements UserDetails {
     public void deleteRole(Role role) {
         roles.remove(role);
     }
+
     public Set<Role> getRoles() {
         return roles;
     }
+
     public User(String username, String password) {
         this.name = username;
         this.lastname = "";
         this.username = username;
         this.password = password;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
