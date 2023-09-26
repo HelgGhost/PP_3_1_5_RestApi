@@ -15,7 +15,6 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import javax.annotation.PostConstruct;
 
 @Component
-@Transactional
 public class Init {
     private final Environment env;
 
