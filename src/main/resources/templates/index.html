@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>Spring Security Example</title>
 </head>
 <body>
 <h1>Welcome to MAIN PAGE!</h1>
 <div th:text="'Default user and password for administrator is: '
-        +${@environment.getProperty('administrator.name')}
+        +${@environment.getProperty('my.administrator.name')}
         +' '
-        +${@environment.getProperty('administrator.password')}">
+        +${@environment.getProperty('my.administrator.password')}">
 </div>
-<div>
-    <a href="/login">Authorisation page</a>
+<div th:if="${principal == null}">
+    <a href="/login">Login</a>
 </div>
-<p><a type="button" th:href="@{/logout}">Logout</a></p>
+<div th:if="${principal != null}">
+    <a th:href="@{/logout}">Logout</a>
+</div>
 </body>
 </html>

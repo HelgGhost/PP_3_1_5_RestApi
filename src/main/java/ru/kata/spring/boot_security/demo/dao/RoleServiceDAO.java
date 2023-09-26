@@ -8,6 +8,6 @@ public interface RoleServiceDAO {
 
     Role get(String name);
 
-    void delete(Long id);
+    void delete(String name);
 
 }

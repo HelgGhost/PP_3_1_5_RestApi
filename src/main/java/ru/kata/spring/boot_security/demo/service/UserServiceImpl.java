@@ -12,7 +12,6 @@ import ru.kata.spring.boot_security.demo.dao.UserServiceDAO;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service
@@ -20,36 +19,13 @@ import java.util.List;
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserServiceDAO userServiceDAO;
     private final RoleService roleService;
-    private final Environment env;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @PostConstruct
-    public void runAfterStartup() {
-        if (roleService.get(Role.getRole(Role.USER)) == null) {
-            roleService.add(new Role(Role.getRole(Role.USER)));
-        }
-        if (roleService.get(Role.getRole(Role.ADMIN)) == null) {
-            roleService.add(new Role(Role.getRole(Role.ADMIN)));
-        }
-
-        if (get(env.getProperty("administrator.name")) == null) {
-            User user = new User(env.getProperty("administrator.name"),
-                    passwordEncoder.encode(env.getProperty("administrator.password")));
-            user.addRole(roleService.get(Role.getRole(Role.ADMIN)));
-            add(user);
-        }
-    }
-
-    @Autowired
-    public UserServiceImpl(UserServiceDAO userServiceDAO, RoleService roleService, Environment env) {
+    public UserServiceImpl(UserServiceDAO userServiceDAO, RoleService roleService, Environment env, PasswordEncoder passwordEncoder) {
         this.userServiceDAO = userServiceDAO;
         this.roleService = roleService;
-        this.env = env;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -81,6 +57,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void updateFromController(User user) {
         user.setRoles(get(user.getId()).getRoles());
+        if (user.getPassword().equals("")) {
+            user.setPassword(get(user.getId()).getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         userServiceDAO.update(user.getId(), user);
     }
 

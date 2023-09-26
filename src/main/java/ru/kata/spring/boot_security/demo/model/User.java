@@ -15,19 +15,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Service
 @Entity
 @Table(name = "users")
 
 public class User implements UserDetails {
-
-    @Transient
-    static UserService userService;
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,13 +27,10 @@ public class User implements UserDetails {
     private String name;
     @Column
     private String lastname;
-
-
     @Column(unique = true)
     private String username;
     @Column(nullable = false)
     private String password;
-
     @ManyToMany(cascade = {
             CascadeType.MERGE
     })
@@ -56,29 +44,39 @@ public class User implements UserDetails {
     public User() {
     }
 
+    public User(String username, String password) {
+        this.name = username;
+        this.lastname = "";
+        this.username = username;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getLastname() {
-        return lastname;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void addRole(Role role) {
-        roles.add(role);
+    public String getName() {
+        return name;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
     }
 
     public void deleteRole(Role role) {
@@ -89,11 +87,8 @@ public class User implements UserDetails {
         return roles;
     }
 
-    public User(String username, String password) {
-        this.name = username;
-        this.lastname = "";
-        this.username = username;
-        this.password = password;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -106,9 +101,17 @@ public class User implements UserDetails {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String email) {
+        this.username = email;
     }
 
     @Override
@@ -142,22 +145,6 @@ public class User implements UserDetails {
     @Override
     public int hashCode() {
         return Objects.hash(id, username);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public void setUsername(String email) {
-        this.username = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
 }

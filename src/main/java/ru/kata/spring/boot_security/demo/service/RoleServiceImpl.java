@@ -26,6 +26,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void delete(Role role) {
-
+        roleServiceDAO.delete(role.getName());
     }
 }

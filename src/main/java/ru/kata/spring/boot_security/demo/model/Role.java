@@ -12,29 +12,25 @@ import java.util.Set;
 public class Role implements GrantedAuthority {
     public static final String ADMIN = "ADMIN";
     public static final String USER = "USER";
-
-    public static String getRole(String role) {
-        return "ROLE_" + role;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String name;
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return Objects.equals(name, role.name);
+    public Role(String name) {
+        this.name = name;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
+    public Role() {
     }
+
+    public static String getRole(String role) {
+        return "ROLE_" + role;
+    }
+
 
     public Long getId() {
         return id;
@@ -60,18 +56,21 @@ public class Role implements GrantedAuthority {
         this.users = users;
     }
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
-
-    public Role(String name) {
-        this.name = name;
-    }
-
-    public Role() {
-    }
-
     @Override
     public String getAuthority() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Role role = (Role) o;
+        return Objects.equals(name, role.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

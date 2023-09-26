@@ -9,11 +9,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-@Transactional
+@Transactional(readOnly = true)
 public class RoleServiceDAOMySQL implements RoleServiceDAO {
     @PersistenceContext
     private EntityManager entityManager;
-
+    @Transactional
     @Override
     public void add(Role role) {
         entityManager.persist(role);
@@ -24,9 +24,11 @@ public class RoleServiceDAOMySQL implements RoleServiceDAO {
         return entityManager.createQuery("SELECT r FROM Role r WHERE r.name = :name", Role.class)
                 .setParameter("name", name).getResultStream().findAny().orElse(null);
     }
-
+    @Transactional
     @Override
-    public void delete(Long id) {
-
+    public void delete(String name) {
+        if (get(name) != null) {
+            entityManager.remove(get(name));
+        }
     }
 }
