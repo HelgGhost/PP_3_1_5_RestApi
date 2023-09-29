@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.controller;
+package ru.kata.spring.bootstrap.demo.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,9 +10,9 @@ import java.security.Principal;
 public class MainController {
 
     @GetMapping(value = "/")
-    public String mainPageRedirectUsers(Principal principal, ModelMap model) {
-        model.addAttribute("principal", principal);
-        return "index";
+    public String mainPageRedirectUsers() {
+        //model.addAttribute("principal", principal);
+        return "redirect:login";
     }
 
 }

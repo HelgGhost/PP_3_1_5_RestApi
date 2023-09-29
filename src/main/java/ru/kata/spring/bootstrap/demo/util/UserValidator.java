@@ -1,11 +1,11 @@
-package ru.kata.spring.boot_security.demo.util;
+package ru.kata.spring.bootstrap.demo.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.bootstrap.demo.model.User;
+import ru.kata.spring.bootstrap.demo.service.UserService;
 
 @Component
 public class UserValidator implements Validator {

@@ -1,6 +1,6 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.spring.bootstrap.demo.service;
 
-import ru.kata.spring.boot_security.demo.model.Role;
+import ru.kata.spring.bootstrap.demo.model.Role;
 
 public interface RoleService {
     void add(Role role);

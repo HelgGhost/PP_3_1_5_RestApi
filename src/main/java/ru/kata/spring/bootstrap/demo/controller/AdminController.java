@@ -1,13 +1,13 @@
-package ru.kata.spring.boot_security.demo.controller;
+package ru.kata.spring.bootstrap.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.UserService;
-import ru.kata.spring.boot_security.demo.util.UserValidator;
+import ru.kata.spring.bootstrap.demo.model.User;
+import ru.kata.spring.bootstrap.demo.service.UserService;
+import ru.kata.spring.bootstrap.demo.util.UserValidator;
 
 import java.security.Principal;
 
@@ -24,13 +24,15 @@ public class AdminController {
     }
 
     @GetMapping()
-    public String showAdminPage(ModelMap model) {
+    public String showAdminPage(Principal principal, ModelMap model) {
+
         model.addAttribute("users", userService.getAll());
+        model.addAttribute("user", userService.get(principal.getName()));
         return "admin/users";
     }
 
     @GetMapping("/{id}")
-    public String showUserPage(@PathVariable("id") Long id, Principal principal, ModelMap model) {
+    public String showUserPage(@PathVariable("id") Long id, ModelMap model) {
         model.addAttribute("user", userService.get(id));
         return "admin/user";
     }

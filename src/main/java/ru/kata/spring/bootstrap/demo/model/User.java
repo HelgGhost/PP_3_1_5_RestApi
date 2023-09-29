@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.model;
+package ru.kata.spring.bootstrap.demo.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -37,7 +38,6 @@ public class User implements UserDetails {
 
     public User() {
     }
-
     public User(String username, String password) {
         this.name = username;
         this.lastname = "";
@@ -79,6 +79,10 @@ public class User implements UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public String getRolesToString() {
+        return roles.stream().map(Object::toString).collect(Collectors.joining(","));
     }
 
     public void setRoles(Set<Role> roles) {

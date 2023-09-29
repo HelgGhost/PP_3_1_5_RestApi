@@ -1,9 +1,8 @@
-package ru.kata.spring.boot_security.demo.dao;
+package ru.kata.spring.bootstrap.demo.dao;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.model.Role;
-import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.bootstrap.demo.model.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

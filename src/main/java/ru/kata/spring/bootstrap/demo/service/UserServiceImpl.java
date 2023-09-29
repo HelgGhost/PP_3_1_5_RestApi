@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.spring.bootstrap.demo.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.dao.UserServiceDAO;
-import ru.kata.spring.boot_security.demo.model.Role;
-import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.bootstrap.demo.dao.UserServiceDAO;
+import ru.kata.spring.bootstrap.demo.model.Role;
+import ru.kata.spring.bootstrap.demo.model.User;
 
 import java.util.List;
 

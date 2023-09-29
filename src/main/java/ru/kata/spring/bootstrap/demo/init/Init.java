@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.init;
+package ru.kata.spring.bootstrap.demo.init;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,12 +7,10 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.model.*;
-import ru.kata.spring.boot_security.demo.service.RoleService;
-import ru.kata.spring.boot_security.demo.service.UserService;
-
-import javax.annotation.PostConstruct;
+import ru.kata.spring.bootstrap.demo.service.RoleService;
+import ru.kata.spring.bootstrap.demo.service.UserService;
+import ru.kata.spring.bootstrap.demo.model.Role;
+import ru.kata.spring.bootstrap.demo.model.User;
 
 @Component
 public class Init {
