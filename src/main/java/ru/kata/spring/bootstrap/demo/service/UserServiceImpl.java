@@ -13,6 +13,8 @@ import ru.kata.spring.bootstrap.demo.model.Role;
 import ru.kata.spring.bootstrap.demo.model.User;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 //public class UserServiceImpl implements UserService {
@@ -56,7 +58,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void updateFromController(User user) {
-        user.setRoles(get(user.getId()).getRoles());
+        linkRoles(user);
         if (user.getPassword().equals("")) {
             user.setPassword(get(user.getId()).getPassword());
         } else {
@@ -66,8 +68,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void addFromController(User user) {
+        linkRoles(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    }
+
+    @Override
     public void delete(Long id) {
         userServiceDAO.delete(id);
+    }
+
+    @Override
+    public void linkRoles(User user) {
+        user.setRoles(user.getRoles().stream().map(r -> roleService.get(r.getName())).collect(Collectors.toSet()));
     }
 
     @Override

@@ -30,11 +30,10 @@ public class Init {
 
     @EventListener(ApplicationReadyEvent.class)
     public void runAfterStartup() {
-        if (roleService.get(Role.getRole(Role.USER)) == null) {
-            roleService.add(new Role(Role.getRole(Role.USER)));
-        }
-        if (roleService.get(Role.getRole(Role.ADMIN)) == null) {
-            roleService.add(new Role(Role.getRole(Role.ADMIN)));
+        for (Role role : Role.getAllRoles()) {
+            if (roleService.get(role.getName()) == null) {
+                roleService.add(new Role(role.getName()));
+            }
         }
 
         if (userService.get(env.getProperty("my.administrator.name")) == null) {

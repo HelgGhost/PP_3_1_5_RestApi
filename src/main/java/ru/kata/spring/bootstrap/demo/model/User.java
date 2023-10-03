@@ -38,11 +38,16 @@ public class User implements UserDetails {
 
     public User() {
     }
+
     public User(String username, String password) {
         this.name = username;
         this.lastname = "";
         this.username = username;
         this.password = password;
+    }
+
+    public boolean hasRole(Role role) {
+        return roles.contains(role);
     }
 
     public Long getId() {
@@ -82,7 +87,7 @@ public class User implements UserDetails {
     }
 
     public String getRolesToString() {
-        return roles.stream().map(Object::toString).collect(Collectors.joining(","));
+        return roles.stream().map(Role::getName).collect(Collectors.joining(", "));
     }
 
     public void setRoles(Set<Role> roles) {

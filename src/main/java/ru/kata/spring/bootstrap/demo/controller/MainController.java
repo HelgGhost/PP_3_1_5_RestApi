@@ -11,7 +11,6 @@ public class MainController {
 
     @GetMapping(value = "/")
     public String mainPageRedirectUsers() {
-        //model.addAttribute("principal", principal);
         return "redirect:login";
     }
 

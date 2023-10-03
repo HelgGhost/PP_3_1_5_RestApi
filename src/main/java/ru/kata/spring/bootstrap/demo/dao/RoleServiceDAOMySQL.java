@@ -6,12 +6,14 @@ import ru.kata.spring.bootstrap.demo.model.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
 public class RoleServiceDAOMySQL implements RoleServiceDAO {
     @PersistenceContext
     private EntityManager entityManager;
+
     @Transactional
     @Override
     public void add(Role role) {
@@ -23,6 +25,12 @@ public class RoleServiceDAOMySQL implements RoleServiceDAO {
         return entityManager.createQuery("SELECT r FROM Role r WHERE r.name = :name", Role.class)
                 .setParameter("name", name).getResultStream().findAny().orElse(null);
     }
+
+    @Override
+    public List<Role> getAll() {
+        return entityManager.createQuery("select r from Role r").getResultList();
+    }
+
     @Transactional
     @Override
     public void delete(String name) {

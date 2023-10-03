@@ -18,6 +18,10 @@ public interface UserService {
 
     void updateFromController(User user);
 
+    void addFromController(User user);
+
     void delete(Long id);
+
+    void linkRoles(User user);
 
 }

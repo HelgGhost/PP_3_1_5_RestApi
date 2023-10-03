@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.kata.spring.bootstrap.demo.dao.RoleServiceDAO;
 import ru.kata.spring.bootstrap.demo.model.Role;
 
+import java.util.List;
+
 @Service
 public class RoleServiceImpl implements RoleService {
     private final RoleServiceDAO roleServiceDAO;
@@ -17,6 +19,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void add(Role role) {
         roleServiceDAO.add(role);
+    }
+
+    @Override
+    public List<Role> getAll() {
+        return roleServiceDAO.getAll();
     }
 
     @Override
