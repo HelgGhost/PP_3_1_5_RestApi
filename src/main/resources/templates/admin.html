@@ -84,7 +84,7 @@
                                             </button>
                                             <div class="modal fade" th:id="${'edit'+ user.getId()}" tabindex="-1"
                                                  aria-hidden="true">
-                                                <form th:method="PATCH" th:action="@{/templates/admin}">
+                                                <form th:method="PATCH" th:action="@{/admin}">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -100,7 +100,7 @@
                                                                     <input th:id="${'id'+user.id}" type="number"
                                                                            class="form-control"
                                                                            th:value="${user.id}"
-                                                                           th:name="id" disabled="disabled">
+                                                                           th:name="id" readonly>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label class="form-label"><b>Name</b></label>
@@ -244,7 +244,7 @@
                     </div>
                     <!--________________________________ "New user" ___________________________________-->
                     <div class="tab-pane fade" id="nav-new" role="tabpanel" aria-labelledby="nav-new-tab">
-                        <form th:method="POST" th:action="@{/templates/admin}" th:object="${newUser}">
+                        <form th:method="POST" th:action="@{/admin}" th:object="${newUser}">
                             <div class="container w-50 text-center">
                                 <div class="mb-3">
                                     <label class="form-label"><b>Name</b></label>

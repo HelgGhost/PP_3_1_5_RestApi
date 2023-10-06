@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void add(User user) {
-        user.addRole(roleService.get(Role.getRole(Role.USER)));
+        //user.addRole(roleService.get(Role.getRole(Role.USER)));
         userServiceDAO.add(user);
     }
 
@@ -64,13 +64,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        userServiceDAO.update(user.getId(), user);
+        update(user.getId(), user);
     }
 
     @Override
     public void addFromController(User user) {
         linkRoles(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        add(user);
     }
 
     @Override
