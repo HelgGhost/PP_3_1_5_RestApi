@@ -12,17 +12,14 @@ import java.security.Principal;
 @Controller
 public class UserController {
     private final UserService userService;
-    private final UserValidator userValidator;
 
     @Autowired
     public UserController(UserService userService, UserValidator userValidator) {
         this.userService = userService;
-        this.userValidator = userValidator;
     }
 
     @GetMapping("/user")
-    public String showUserPage(Principal principal, ModelMap model) {
-        model.addAttribute("localUser", userService.get(principal.getName()));
+    public String showUserPage() {
         return "user";
     }
 

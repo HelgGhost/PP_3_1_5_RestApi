@@ -31,7 +31,6 @@ public class AdminController {
 
         model.addAttribute("users", userService.getAll());
         model.addAttribute("newUser", new User());
-        model.addAttribute("localUser", userService.get(principal.getName()));
         model.addAttribute("allRoles", roleService.getAll());
         return "admin";
     }

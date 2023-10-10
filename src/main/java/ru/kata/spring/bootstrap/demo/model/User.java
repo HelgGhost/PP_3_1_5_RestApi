@@ -1,5 +1,6 @@
 package ru.kata.spring.bootstrap.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements UserDetails {
 
     @Id
