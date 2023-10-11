@@ -27,8 +27,12 @@ public class UserValidator implements Validator {
         if (userService.get(user.getUsername()) != null && !user.equals(userService.get(user.getUsername()))) {
             errors.rejectValue("username", "", "Username already in use");
         }
-        if (user.getPassword() == null) {
+        if ((user.getPassword() == null || user.getPassword().isEmpty())
+                && (user.getId() == null)) {
             errors.rejectValue("password", "", "Password must be not empty");
+        }
+        if (user.getUsername() == null || user.getUsername().isEmpty()) {
+            errors.rejectValue("username", "", "Username must be not empty");
         }
     }
 }

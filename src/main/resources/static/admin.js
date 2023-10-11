@@ -1,5 +1,7 @@
 fillRoles('#newUserRoles')
 fillUsers()
+$('#nu_add').on('click', addUserSubmit)
+
 async function getRoles() {
     let response = await fetch("/api/roles");
     return response.json();
@@ -23,15 +25,27 @@ async function fillRoles(id, hasRoles = []) {
     })
 }
 
-async function fillEditDelete(id) {
+async function fillEditDelete(id, edit = true) {
     let response = await fetch("/api/" + id);
     let user = await response.json();
     $("#eu_id").val(user.id);
-    $("#eu_name").val(user.name);
-    $("#eu_lastname").val(user.lastname);
-    $("#eu_username").val(user.username);
+    $("#eu_name").val(user.name).prop('readonly', !edit);
+    $("#eu_lastname").val(user.lastname).prop('readonly', !edit);
+    $("#eu_username").val(user.username).prop('readonly', !edit);
+    $("#eu_password").val('').prop('readonly', !edit);
+    $("#eu_roles").prop('disabled', !edit);
+    $('#eu_error').text('');
+
     fillRoles('#eu_roles', user.roles);
+    if (edit) {
+        $("#eu_action").off("click").click(updateUserSubmit).text('Edit').removeClass('btn-danger')
+            .addClass('btn-primary');
+    } else {
+        $("#eu_action").off("click").click(deleteUserSubmit).text('Delete').removeClass('btn-primary')
+            .addClass('btn-danger');
+    }
 }
+
 async function fillUsers() {
     let users = await getUsers();
     $("#users").empty();
@@ -43,17 +57,42 @@ async function fillUsers() {
             '<td>' + user.username + '</td>' +
             '<td>' + rolesToString(user.roles) + '</td>' +
             '<td><button type="button" class="btn btn-primary" data-bs-toggle="modal"' +
-                     'data-bs-target="#editUser" onclick="fillEditDelete(' + user.id + ')">Edit</button></td>' +
+            'data-bs-target="#editUser" onclick="fillEditDelete(' + user.id + ')">Edit</button></td>' +
             '<td><button type="button" class="btn btn-danger" data-bs-toggle="modal"' +
-                     'data-bs-target="#delete'+ user.id + '">Delete</button></td>' +
+            'data-bs-target="#editUser" onclick="fillEditDelete(' + user.id + ', false)">Delete</button></td>' +
             '</tr>');
     })
 }
 
 async function updateUserSubmit() {
-
+    let editUserForm = $('#editUser');
+    let user = {
+        id: editUserForm.find('#eu_id').val().trim(),
+        name: editUserForm.find('#eu_name').val().trim(),
+        lastname: editUserForm.find('#eu_lastname').val().trim(),
+        username: editUserForm.find('#eu_username').val().trim(),
+        password: editUserForm.find('#eu_password').val().trim(),
+        roles: editUserForm.find('#eu_roles').val()
+    };
+    fetch('api/' + user.id, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user)
+    }).then(async response => {
+        if (response.ok) {
+            fillUsers();
+            $('#editUser').modal("hide");
+        } else {
+            let result = await response.json();
+            let errText = result.map(r => r.defaultMessage).join('<br>');
+            $('#eu_error').text(errText);
+        }
+    });
 }
-async function addUserSubmit() {
+
+function addUserSubmit() {
     let newUserForm = $('#newUser');
     let user = {
         name: newUserForm.find('#name').val().trim(),
@@ -62,16 +101,44 @@ async function addUserSubmit() {
         password: newUserForm.find('#password').val().trim(),
         roles: newUserForm.find('#newUserRoles').val()
     };
-
-    let response = await fetch('api', {
+    fetch('api', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(user)
+    }).then(async response => {
+        if (response.ok) {
+            fillUsers();
+            $('#nav-home-tab').tab('show');
+            $('#nu_error').text('');
+            $('#name').val('');
+            $('#lastname').val('');
+            $('#username').val('');
+            $('#password').val('');
+            $('#newUserRoles').val([]);
+
+        } else {
+            let result = await response.json();
+            let errText = result.map(r => r.defaultMessage).join('<br>');
+            $('#nu_error').html(errText);
+        }
+    });
+}
+
+function deleteUserSubmit() {
+    fetch('api/' + $('#eu_id').val(), {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    }).then(response => {
+        if (response.ok) {
+            fillUsers();
+            $('#editUser').modal("hide");
+        } else {
+            console.log(response);
+        }
     });
 
-    if (response.ok) {
-
-    }
 }

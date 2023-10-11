@@ -35,30 +35,30 @@ public class AdminController {
         return "admin";
     }
 
-    @PostMapping()
-    public String addUser(@ModelAttribute("newUser") User user, BindingResult bindingResult) {
-        userValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "redirect:/admin";
-        }
-        userService.addFromController(user);
-        return "redirect:/admin";
-    }
+//    @PostMapping()
+//    public String addUser(@ModelAttribute("newUser") User user, BindingResult bindingResult) {
+//        userValidator.validate(user, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            return "redirect:/admin";
+//        }
+//        userService.addFromController(user);
+//        return "redirect:/admin";
+//    }
+//
+//    @PatchMapping()
+//    public String updateUser(@ModelAttribute("user") User user,
+//                             BindingResult bindingResult) {
+//        userValidator.validate(user, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            return "redirect:/admin";
+//        }
+//        userService.updateFromController(user);
+//        return "redirect:/admin";
+//    }
 
-    @PatchMapping()
-    public String updateUser(@ModelAttribute("user") User user,
-                             BindingResult bindingResult) {
-        userValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "redirect:/admin";
-        }
-        userService.updateFromController(user);
-        return "redirect:/admin";
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteUserRedirectUsers(@PathVariable("id") Long id) {
-        userService.delete(id);
-        return "redirect:/admin";
-    }
+//    @DeleteMapping("/{id}")
+//    public String deleteUserRedirectUsers(@PathVariable("id") Long id) {
+//        userService.delete(id);
+//        return "redirect:/admin";
+//    }
 }

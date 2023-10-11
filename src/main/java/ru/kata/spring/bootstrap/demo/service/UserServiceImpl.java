@@ -57,14 +57,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void updateFromController(User user) {
+    public void updateFromController(Long id, User user) {
         linkRoles(user);
         if (user.getPassword().equals("")) {
             user.setPassword(get(user.getId()).getPassword());
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        update(user.getId(), user);
+        update(id, user);
     }
 
     @Override

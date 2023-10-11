@@ -16,7 +16,7 @@ public interface UserService {
 
     void update(Long id, User user);
 
-    void updateFromController(User user);
+    void updateFromController(Long id, User user);
 
     void addFromController(User user);
 
