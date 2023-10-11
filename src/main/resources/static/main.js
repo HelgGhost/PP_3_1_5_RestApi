@@ -1,12 +1,12 @@
 let curUser;
 fillHeaderAndUIPage()
 
-function fillHeaderAndUIPage () {
+async function fillHeaderAndUIPage () {
     fetch("/api/user")
-        .then(response => {
-            response.json().then(user => {
+        .then(async response => {
+            await response.json().then(user => {
                 let roles = rolesToString(user.roles);
-                $("#header_username").text(user.name);
+                $("#header_username").text(user.username);
                 $("#header_roles").text('with roles: ' + roles);
                 $("#ui_id").text(user.id);
                 $("#ui_name").text(user.name);

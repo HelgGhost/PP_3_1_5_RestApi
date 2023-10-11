@@ -1,5 +1,7 @@
-fillRoles('#newUserRoles')
-fillUsers()
+$(async function () {
+    await fillRoles('#newUserRoles');
+    await fillUsers()
+})
 $('#nu_add').on('click', addUserSubmit)
 
 async function getRoles() {
@@ -85,8 +87,8 @@ async function updateUserSubmit() {
             if (curUser.id == user.id && curUser.username != user.username) {//Если изменили имя текущего пользователя то логаут
                 $('#logout').submit();
             }
-            fillHeaderAndUIPage();
-            fillUsers();
+            await fillUsers();
+            await fillHeaderAndUIPage()
             $('#editUser').modal("hide");
         } else {
             let result = await response.json();
@@ -113,7 +115,7 @@ function addUserSubmit() {
         body: JSON.stringify(user)
     }).then(async response => {
         if (response.ok) {
-            fillUsers();
+            await fillUsers();
             $('#nav-home-tab').tab('show');
             $('#nu_error').text('');
             $('#name').val('');
@@ -130,16 +132,15 @@ function addUserSubmit() {
     });
 }
 
-function deleteUserSubmit() {
+async function deleteUserSubmit() {
     fetch('api/' + $('#eu_id').val(), {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         }
-    }).then(response => {
+    }).then(async response => {
         if (response.ok) {
-            fillHeaderAndUIPage();
-            fillUsers();
+            await fillUsers();
             $('#editUser').modal("hide");
             if ($('#eu_id').val() == curUser.id) {//Если удалили текущего пользователя то логаут
                 $('#logout').submit();
