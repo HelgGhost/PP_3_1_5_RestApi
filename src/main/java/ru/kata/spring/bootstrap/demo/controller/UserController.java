@@ -22,5 +22,9 @@ public class UserController {
     public String showUserPage() {
         return "user";
     }
+    @GetMapping("/")
+    public String showLoginPage() {
+        return "redirect:login";
+    }
 
 }

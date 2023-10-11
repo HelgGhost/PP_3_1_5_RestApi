@@ -82,6 +82,10 @@ async function updateUserSubmit() {
         body: JSON.stringify(user)
     }).then(async response => {
         if (response.ok) {
+            if (curUser.id == user.id && curUser.username != user.username) {//Если изменили имя текущего пользователя то логаут
+                $('#logout').submit();
+            }
+            fillHeaderAndUIPage();
             fillUsers();
             $('#editUser').modal("hide");
         } else {
@@ -134,8 +138,12 @@ function deleteUserSubmit() {
         }
     }).then(response => {
         if (response.ok) {
+            fillHeaderAndUIPage();
             fillUsers();
             $('#editUser').modal("hide");
+            if ($('#eu_id').val() == curUser.id) {//Если удалили текущего пользователя то логаут
+                $('#logout').submit();
+            }
         } else {
             console.log(response);
         }

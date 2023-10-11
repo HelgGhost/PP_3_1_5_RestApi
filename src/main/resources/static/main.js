@@ -1,4 +1,4 @@
-
+let curUser;
 fillHeaderAndUIPage()
 
 function fillHeaderAndUIPage () {
@@ -13,6 +13,7 @@ function fillHeaderAndUIPage () {
                 $("#ui_lastname").text(user.lastname);
                 $("#ui_username").text(user.username);
                 $("#ui_roles").text(roles);
+                curUser = user;
             })
         })
 }

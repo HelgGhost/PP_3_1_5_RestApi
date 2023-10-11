@@ -40,6 +40,7 @@ public class Init {
             User user = new User(env.getProperty("my.administrator.name"),
                     passwordEncoder.encode(env.getProperty("my.administrator.password")));
             user.addRole(roleService.get(Role.getRole(Role.ADMIN)));
+            user.addRole(roleService.get(Role.getRole(Role.USER)));
             userService.add(user);
         }
 
